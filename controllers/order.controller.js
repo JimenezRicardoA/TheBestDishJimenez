@@ -154,8 +154,10 @@ function getdescuento(orden, codigo) {
     let total = orden.total;
 
 
-    if (!orden.clientName || !orden.dishes || orden.dishes.length === 0 || !orden.total) {
+    if (!orden.clientName || !orden.dishes || orden.dishes.length === 0 || orden.total === undefined) {
         throw new Error('Invalid order');
+    } else if (typeof orden.total != 'number' || orden.total <= 0) {
+        throw new Error('Invalid total');
     }
 
 
@@ -165,6 +167,8 @@ function getdescuento(orden, codigo) {
             throw new Error('Invalid dish');
         } else if (dish.type !== 'Comida' && dish.type !== 'Bebida') {
             throw new Error('Invalid dish type ' + dish.dishName);
+        } else if (typeof dish.price != 'number' || dish.price <= 0) {
+            throw new Error('Invalid dish price ' + dish.dishName);
         }
 
         if (dish.type === 'Comida') {

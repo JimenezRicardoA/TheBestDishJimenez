@@ -60,6 +60,13 @@ const plato = new DishModel({
     type: 'Dulces'
 });
 
+const plato2 = new DishModel({
+    dishName: 'chicles',
+    dishDescription: NaN,
+    price: {},
+    type: 'Comida'
+});
+
 const order = new OrderModel({
     clientName: 'Dariel',
     dishes: [
@@ -146,6 +153,22 @@ const order8 = new OrderModel({
     total: picza.price
 })
 
+const order9 = new OrderModel({
+    clientName: 'Natalia',
+    dishes: [
+        { dishName: picza.dishName, dishDescription: picza.dishDescription, price: picza.price, type: picza.type },
+    ],
+    total: 'tonto'
+})
+
+const order10 = new OrderModel({
+    clientName: 'Natalia',
+    dishes: [
+        { dishName: plato2.dishName, dishDescription: plato2.dishDescription, price: plato2.price, type: plato2.type }
+    ],
+    total: picza.price
+});
+
 
 
 describe('Pruebas unitarias', () => {
@@ -193,6 +216,14 @@ describe('Pruebas unitarias', () => {
 
             it('Debe devolver un error si el platillo cuenta con un type diferente a Comida o Bebida', function () {
                 expect(() => getdescuento(order8)).toThrow('Invalid dish type ' + plato.dishName);
+            });
+
+            it('Debe devolver un error si la orden cuenta con un total diferente a un numero', function () {
+                expect(() => getdescuento(order9)).toThrow('Invalid total');
+            });
+
+            it('Debe devolver un error si el platillo cuenta con un price diferente a un numero', function () {
+                expect(() => getdescuento(order10)).toThrow('Invalid dish price ' + plato2.dishName);
             });
         })
     });
